@@ -8,7 +8,7 @@ async function startApolloServer(typeDefs, resolvers) {
     typeDefs,
     resolvers,
     cors: {
-      origin: '*',
+      origin: 'https://client-castsronauts.herokuapp.com/',
       credentials: true,
     },
     dataSources: () => {
