@@ -8,8 +8,8 @@ async function startApolloServer(typeDefs, resolvers) {
     typeDefs,
     resolvers,
     cors: {
-      origin: 'http://localhost:3000',
-      credentials: true
+      origin: '*',
+      credentials: true,
     },
     dataSources: () => {
       return {
