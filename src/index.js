@@ -9,7 +9,7 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-  origin: true,
+  origin: 'http://localhost:3000',
   credentials: true
 }
 
@@ -17,7 +17,6 @@ async function startApolloServer(typeDefs, resolvers) {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    cors: cors(corsOptions),
     dataSources: () => {
       return {
         trackAPI: new TrackAPI(),
@@ -25,7 +24,7 @@ async function startApolloServer(typeDefs, resolvers) {
     },
   });
 
-  server.applyMiddleware({ app });
+  server.applyMiddleware({ app, cors: corsOptions });
 
   const { url, port } = await server.listen({ port: precess.env.PORT || 4000 });
   console.log(`
