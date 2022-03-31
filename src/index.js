@@ -1,36 +1,22 @@
-const { ApolloServer } = require("apollo-server-express");
+const { ApolloServer } = require("apollo-server");
 const typeDefs = require("./schema");
 const resolvers = require("./resolvers");
 const TrackAPI = require("./datasources/track-api");
-const express = require("express");
-const cors = require("cors");
-
-const app = express();
 
 async function startApolloServer(typeDefs, resolvers) {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
+    cors: {
+      origin: '*',			// <- allow request from all domains
+      credentials: true
+    },
     dataSources: () => {
       return {
         trackAPI: new TrackAPI(),
       };
     },
   });
-
-  
-var corsOptions = {
-  origin: 'http://client-castsronauts.herokuapp.com/',
-  credentials: true // <-- REQUIRED backend setting
-};
-
-app.use(cors(corsOptions));
-
-  server.applyMiddleware({
-		app,
-		path: '/',
-		cors: false
-	});
 
   const { url, port } = await server.listen({ port: process.env.PORT || 4000 });
   console.log(`
