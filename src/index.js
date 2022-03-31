@@ -20,7 +20,7 @@ async function startApolloServer(typeDefs, resolvers) {
 
   
 var corsOptions = {
-  origin: 'https://server-castsronauts.herokuapp.com/',
+  origin: 'http://client-castsronauts.herokuapp.com/',
   credentials: true // <-- REQUIRED backend setting
 };
 
