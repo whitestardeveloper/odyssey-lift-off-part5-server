@@ -1,17 +1,11 @@
-const { ApolloServer } = require("apollo-server");
+const { ApolloServer } = require("apollo-server-express");
 const typeDefs = require("./schema");
 const resolvers = require("./resolvers");
 const TrackAPI = require("./datasources/track-api");
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
-
-// CORS configuration
-const corsOptions = {
-  origin: 'http://localhost:3000',
-  credentials: true
-}
 
 async function startApolloServer(typeDefs, resolvers) {
   const server = new ApolloServer({
@@ -24,9 +18,21 @@ async function startApolloServer(typeDefs, resolvers) {
     },
   });
 
-  server.applyMiddleware({ app, cors: corsOptions });
+  
+var corsOptions = {
+  origin: 'https://server-castsronauts.herokuapp.com/',
+  credentials: true // <-- REQUIRED backend setting
+};
 
-  const { url, port } = await server.listen({ port: precess.env.PORT || 4000 });
+app.use(cors(corsOptions));
+
+  server.applyMiddleware({
+		app,
+		path: '/',
+		cors: false
+	});
+
+  const { url, port } = await server.listen({ port: process.env.PORT || 4000 });
   console.log(`
       🚀  Server is running
       🔉  Listening on port ${port}
